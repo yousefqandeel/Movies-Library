@@ -18,7 +18,7 @@ function favoriteHandler(req, res) {
 
 function jsonHandler(request, response) {
     let result = [];
-    data.forEach((value, index) => {
+    data.forEach((value) => {
         let oneMovie = new selectData(value.title, value.poster_path, value.overview);
         result.push(oneMovie);
     });
