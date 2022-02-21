@@ -18,10 +18,8 @@ function favoriteHandler(req, res) {
 
 function jsonHandler(request, response) {
     let result = [];
-    data.forEach((value) => {
-        let oneMovie = new selectData(value.title, value.poster_path, value.overview);
-        result.push(oneMovie);
-    });
+    let oneMovie = new selectData(data.title, data.poster_path, data.overview);
+    result.push(oneMovie);
     return response.status(200).json(result);
 };
 
