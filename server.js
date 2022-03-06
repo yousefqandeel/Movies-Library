@@ -33,17 +33,17 @@ function favoritePageHandler(req, res) {
     return res.status(200).send("Welcome to Favorite Page!!");
 }
 function trendingPageHandler(req, res) {
-    let result = [];
-    let response = axios.get(`https://api.themoviedb.org/3/trending/all/week?api_key=${APIKEY}&language=en-US`)
-        .then(apiResponse => {
-            apiResponse.data.results.map(value => {
-                let oneMovie = new selectData(value.id || "N/A", value.title || "N/A", value.release_date || "N/A", value.poster_path || "N/A", value.overview || "N/A");
-                result.push(oneMovie);
-            });
-            return res.status(200).json(result);
+    let results = []
+    axios.get(`https://api.themoviedb.org/3/trending/all/week?api_key=${APIKEY}&language=en-US`)
+        .then(getResponse => {
+            getResponse.data.results.map(value => {
+                let newMovie = new Movie(value.id, value.title, value.poster_path, value.overview);
+                results.push(newMovie);
+            })
+            return res.status(200).json(results);
         }).catch(error => {
             errorHandler(error, req, res);
-        });
+        })
 }
 function searchPageHandler(req, res) {
     const search = req.query.Movie;
@@ -51,10 +51,10 @@ function searchPageHandler(req, res) {
     console.log(req);
     let response = axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${APIKEY}&language=en-US&query=${search}&page=2`)
         .then(apiResponse => {
-
-            let oneMovie = new selectData(value.id || "N/A", value.title || "N/A", value.release_date || "N/A", value.poster_path || "N/A", value.overview || "N/A");
-            result.push(oneMovie);
-
+            apiResponse.data.results.map(value => {
+                let oneMovie = new selectData(value.id || "N/A", value.title || "N/A", value.release_date || "N/A", value.poster_path || "N/A", value.overview || "N/A");
+                result.push(oneMovie);
+            });
             return res.status(200).json(result);
         }).catch(error => {
             errorHandler(error, req, res);
